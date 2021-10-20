@@ -369,11 +369,7 @@ export class Pool {
       // because each iteration of the while loop rounds, we can't optimize this code (relative to the smart contract)
       // by simply traversing to the next available tick, we instead need to exactly replicate
       // tickBitmap.nextInitializedTickWithinOneWord
-      ;[step.tickNext, step.initialized] = this.tickDataProviderSync.nextInitializedTickWithinOneWord(
-        state.tick,
-        zeroForOne,
-        this.tickSpacing
-      )
+      ;[step.tickNext, step.initialized] = [0, true]
 
       if (step.tickNext < TickMath.MIN_TICK) {
         step.tickNext = TickMath.MIN_TICK
@@ -409,7 +405,7 @@ export class Pool {
       if (JSBI.equal(state.sqrtPriceX96, step.sqrtPriceNextX96)) {
         // if the tick is initialized, run the tick transition
         if (step.initialized) {
-          let liquidityNet = JSBI.BigInt(this.tickDataProvider.getTickSync(step.tickNext).liquidityNet)
+          let liquidityNet: BigintIsh = JSBI.BigInt(this.tickDataProvider.getTickSync(step.tickNext).liquidityNet)
           // if we're moving leftward, we interpret liquidityNet as the opposite sign
           // safe because liquidityNet cannot be type(int128).min
           if (zeroForOne) liquidityNet = JSBI.multiply(liquidityNet, NEGATIVE_ONE)

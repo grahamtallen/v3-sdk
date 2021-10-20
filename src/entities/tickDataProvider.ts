@@ -9,6 +9,7 @@ export interface TickDataProvider {
    * @param tick the tick to load
    */
   getTick(tick: number): Promise<{ liquidityNet: BigintIsh }>
+  getTickSync(tick: number): { liquidityNet: BigintIsh }
 
   /**
    * Return the next tick that is initialized within a single word
@@ -26,6 +27,9 @@ export interface TickDataProvider {
 export class NoTickDataProvider implements TickDataProvider {
   private static ERROR_MESSAGE = 'No tick data provider was given'
   async getTick(_tick: number): Promise<{ liquidityNet: BigintIsh }> {
+    throw new Error(NoTickDataProvider.ERROR_MESSAGE)
+  }
+  getTickSync(_tick: number): { liquidityNet: BigintIsh } {
     throw new Error(NoTickDataProvider.ERROR_MESSAGE)
   }
 
