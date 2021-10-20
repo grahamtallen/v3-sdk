@@ -18,6 +18,9 @@ export class TickListDataProvider implements TickDataProvider {
   async getTick(tick: number): Promise<{ liquidityNet: BigintIsh; liquidityGross: BigintIsh }> {
     return TickList.getTick(this.ticks, tick)
   }
+  getTickSync(tick: number): { liquidityNet: BigintIsh; liquidityGross: BigintIsh } {
+    return TickList.getTick(this.ticks, tick)
+  }
 
   async nextInitializedTickWithinOneWord(tick: number, lte: boolean, tickSpacing: number): Promise<[number, boolean]> {
     return TickList.nextInitializedTickWithinOneWord(this.ticks, tick, lte, tickSpacing)
