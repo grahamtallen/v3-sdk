@@ -184,6 +184,14 @@ describe('Pool', () => {
       ])
     })
 
+    describe('#sync methods - getOutputAmountSync', () => {
+      it('USDC -> DAI', () => {
+        const inputAmount = CurrencyAmount.fromRawAmount(USDC, 100)
+        const [outputAmount] = pool.getOutputAmountSync(inputAmount)
+        expect(outputAmount.currency.equals(DAI)).toBe(true)
+        expect(outputAmount.quotient).toEqual(JSBI.BigInt(98))
+      })
+    })
     describe('#getOutputAmount', () => {
       it('USDC -> DAI', async () => {
         const inputAmount = CurrencyAmount.fromRawAmount(USDC, 100)
